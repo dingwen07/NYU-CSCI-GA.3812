@@ -1,0 +1,45 @@
+{
+    "name": "Development",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+
+    // Use 'vscode' user inside the container
+    "remoteUser": "vscode",
+
+    // To mount the source code into /workspace
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+    "workspaceFolder": "/workspace",
+
+    // Features for VS Code
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.cpptools",
+                "ms-vscode.cpptools-extension-pack",
+                "ms-vscode.cmake-tools",
+                "twxs.cmake",
+                "ms-python.python",
+                "ms-vscode.makefile-tools",
+                "vadimcn.vscode-lldb",
+                "llvm-vs-code-extensions.vscode-clangd"
+            ],
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "bash",
+                "C_Cpp.default.compilerPath": "/usr/bin/gcc",
+                "cmake.generator": "Ninja"
+            }
+        }
+    },
+
+    // Run script after container is created
+    "postCreateCommand": "bash /workspace/.devcontainer/scripts/post-create.sh",
+
+
+
+    // Optional features
+    "features": {
+        "ghcr.io/devcontainers/features/git:1": {},
+        "ghcr.io/devcontainers/features/common-utils:2": {}
+    }
+}
