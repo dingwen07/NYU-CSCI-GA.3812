@@ -1,0 +1,38 @@
+exclude
+
+$[?(@.type=='syscall' & @.name=='openat')].args[1] | ^/lib/.*
+$[?(@.type=='syscall' & @.name=='openat')].args[1] | ^/usr/lib/.*
+$[?(@.type=='syscall' & @.name=='openat')].args[1] | ^/usr/bin/.*
+$[?(@.type=='syscall' & @.name=='openat')].args[1] | ^/etc/ld\.so\.cache$
+$[?(@.type=='syscall' & @.name=='openat')].args[1] | ^\S*/python3\.[0-9]+/site-packages.*$
+$[?(@.type=='syscall' & @.name=='openat')].args[1] | ^\S*/python3\.[0-9]+/dist-packages.*$
+
+$[?(@.type=='syscall' & @.name=='faccessat')].args[1] | ^/etc/ld\.so\.preload$
+
+$[?(@.type=='syscall' & @.name=='ioctl')].args[0].path | ^/lib/.*
+$[?(@.type=='syscall' & @.name=='ioctl')].args[0].path | ^/usr/lib/.*
+$[?(@.type=='syscall' & @.name=='ioctl')].args[0].path | ^\S*/python3\.[0-9]+/site-packages.*$
+$[?(@.type=='syscall' & @.name=='ioctl')].args[0].path | ^\S*/python3\.[0-9]+/dist-packages.*$
+
+$[?(@.type=='syscall' & @.name=='getdents64')].args[0].path | ^/lib/.*
+$[?(@.type=='syscall' & @.name=='getdents64')].args[0].path | ^/usr/lib/.*
+$[?(@.type=='syscall' & @.name=='getdents64')].args[0].path | ^\S*/python3\.[0-9]+/site-packages.*$
+$[?(@.type=='syscall' & @.name=='getdents64')].args[0].path | ^\S*/python3\.[0-9]+/dist-packages.*$
+
+$[?(@.type=='syscall' & @.name=='mmap')].args[4] | ^-1$
+$[?(@.type=='syscall' & @.name=='mmap')].args[4].path | ^/lib/.*
+$[?(@.type=='syscall' & @.name=='mmap')].args[4].path | ^/usr/lib/.*
+$[?(@.type=='syscall' & @.name=='mmap')].args[4].path | ^/etc/ld\.so\.cache$
+$[?(@.type=='syscall' & @.name=='mmap')].args[4].path | ^\S*/python3\.[0-9]+/site-packages.*$
+$[?(@.type=='syscall' & @.name=='mmap')].args[4].path | ^\S*/python3\.[0-9]+/dist-packages.*$
+
+$[?(@.type=='syscall' & @.name=='munmap')]
+$[?(@.type=='syscall' & @.name=='mprotect')]
+$[?(@.type=='syscall' & @.name=='fstat')]
+$[?(@.type=='syscall' & @.name=='newfstatat')]
+$[?(@.type=='syscall' & @.name=='read')]
+$[?(@.type=='syscall' & @.name=='lseek')]
+$[?(@.type=='syscall' & @.name=='close')]
+$[?(@.type=='syscall' & @.name=='readlinkat')]
+$[?(@.type=='syscall' & @.name=='futex')]
+$[?(@.type=='syscall' & @.name=='brk')]

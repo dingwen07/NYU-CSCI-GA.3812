@@ -1,0 +1,12 @@
+exclude
+
+# Ignore requests to get current signal handler
+$[?(@.type=='syscall' & @.name=='rt_sigaction' & @.args[1]=="NULL")]
+
+# Ignore request to set signal handler to SIG_DFL
+$[?(@.type=='syscall' & @.name=='rt_sigaction')].args[1].fields.sa_handler | ^SIG_DFL$
+
+# Ignore all rt_sigprocmask
+$[?(@.type=='syscall' & @.name=='rt_sigprocmask')]
+
+

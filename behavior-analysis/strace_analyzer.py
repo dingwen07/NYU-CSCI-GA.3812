@@ -101,10 +101,14 @@ def process_strace_log(filename):
                     # We add the end timestamp from the current resumed line
                     new_event['end_timestamp'] = event.get('timestamp')
                     
+                    if 'status' in new_event:
+                        del new_event['status']
                     print(json.dumps(new_event))
 
                 # --- Case 3: Standard (Atomic) Lines ---
                 else:
+                    if 'status' in event:
+                        del event['status']
                     print(json.dumps(event))
 
             except Exception as e:

@@ -1,3 +1,4 @@
 
 requests
 lark-parser
+jsonpath-ng
