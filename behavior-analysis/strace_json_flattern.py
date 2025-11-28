@@ -4,6 +4,7 @@ import sys
 import json
 
 FORMAT_STRING = '{PID}\t{TIMESTAMP}\t{SYSCALL}({ARGS})\t= {RETURN}'
+ARGS_RETURN_LIMIT = 250
 
 if __name__ == '__main__':
     # Usage: python strace_json_flattern.py
@@ -18,8 +19,8 @@ if __name__ == '__main__':
             pid = entry.get('pid', '')
             timestamp = entry.get('timestamp', '')
             syscall = entry.get('name', '')
-            args = json.dumps(entry.get('args', ''))
-            ret = json.dumps(entry.get('result', ''))
+            args = json.dumps(entry.get('args', ''))[:ARGS_RETURN_LIMIT]
+            ret = json.dumps(entry.get('result', ''))[:ARGS_RETURN_LIMIT]
             flat_line = FORMAT_STRING.format(PID=pid, TIMESTAMP=timestamp, SYSCALL=syscall, ARGS=args, RETURN=ret)
             print(flat_line)
         except json.JSONDecodeError:

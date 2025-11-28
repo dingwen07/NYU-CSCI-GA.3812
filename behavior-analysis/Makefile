@@ -1,6 +1,7 @@
 
 CFLAGS = -Wall -Wextra -O2 -g
 STRACE_CMD = strace -o trace-logs/trace_$@.log -ttt -xx -y -f -s 65535
+STRACE_FILTERS = filters/system_lib.txt filters/signal_hander.txt filters/boring.txt
 
 .PHONY: clean run_bot_1 run_bot_2 analyze_bot_1 analyze_bot_2 run_robothon_web kill_robothon_web trace-logs
 
@@ -14,11 +15,17 @@ run_bot_2: test-code/test_bot_2 | trace-logs
 test-code/test_bot_2: test-code/test_bot_2.c
 	$(CC) $(CFLAGS) -o $@ $<
 
-analyze_bot_1: trace-logs/trace_run_bot_1.log
+trace-logs/trace_run_bot_1_analyzed.ndjson: trace-logs/trace_run_bot_1.log
 	python3 strace_analyzer.py trace-logs/trace_run_bot_1.log > trace-logs/trace_run_bot_1_analyzed.ndjson
 
-analyze_bot_2: trace-logs/trace_run_bot_2.log
+trace-logs/trace_run_bot_2_analyzed.ndjson: trace-logs/trace_run_bot_2.log
 	python3 strace_analyzer.py trace-logs/trace_run_bot_2.log > trace-logs/trace_run_bot_2_analyzed.ndjson
+
+trace-logs/trace_run_bot_1_filtered.ndjson: trace-logs/trace_run_bot_1_analyzed.ndjson
+	cat $< | ./strace_filter_chain.sh $(STRACE_FILTERS) > $@
+
+trace-logs/trace_run_bot_2_filtered.ndjson: trace-logs/trace_run_bot_2_analyzed.ndjson
+	cat $< | ./strace_filter_chain.sh $(STRACE_FILTERS) > $@
 
 test-code/ignore_sigterm: test-code/ignore_sigterm.c
 	$(CC) $(CFLAGS) -o $@ $<

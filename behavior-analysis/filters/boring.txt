@@ -1,0 +1,26 @@
+exclude
+
+$[?(@.type=='syscall' & @.name=='munmap')]
+$[?(@.type=='syscall' & @.name=='mprotect')]
+$[?(@.type=='syscall' & @.name=='fstat')]
+$[?(@.type=='syscall' & @.name=='newfstatat')]
+$[?(@.type=='syscall' & @.name=='read')]
+$[?(@.type=='syscall' & @.name=='lseek')]
+$[?(@.type=='syscall' & @.name=='close')]
+$[?(@.type=='syscall' & @.name=='readlinkat')]
+$[?(@.type=='syscall' & @.name=='futex')]
+$[?(@.type=='syscall' & @.name=='brk')]
+
+# Ignore write to stdout/stderr
+$[?(@.type=='syscall' & @.name=='write' & @.args[0].type=='fd' & @.args[0].fd==1)]
+$[?(@.type=='syscall' & @.name=='write' & @.args[0].type=='fd' & @.args[0].fd==2)]
+
+# Ignore fcntl and ioctl on stdio and errror
+$[?(@.type=='syscall' & @.name=='fcntl' & @.args[0].type=='fd' & @.args[0].fd==0)]
+$[?(@.type=='syscall' & @.name=='fcntl' & @.args[0].type=='fd' & @.args[0].fd==1)]
+$[?(@.type=='syscall' & @.name=='fcntl' & @.args[0].type=='fd' & @.args[0].fd==2)]
+$[?(@.type=='syscall' & @.name=='ioctl' & @.args[0].type=='fd' & @.args[0].fd==0)]
+$[?(@.type=='syscall' & @.name=='ioctl' & @.args[0].type=='fd' & @.args[0].fd==1)]
+$[?(@.type=='syscall' & @.name=='ioctl' & @.args[0].type=='fd' & @.args[0].fd==2)]
+
+

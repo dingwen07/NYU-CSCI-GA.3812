@@ -10,6 +10,8 @@ from typing import List, Tuple
 
 from jsonpath_rw_ext import parse as jsonpath_parse
 
+FILTER_LINE_SEPARATOR = ':::'
+
 def parse_filter_file(filter_filename) -> Tuple[bool, List[Tuple[str, str]]]:
     include_mode = True
     filters = []
@@ -31,7 +33,7 @@ def parse_filter_file(filter_filename) -> Tuple[bool, List[Tuple[str, str]]]:
             # split by # and //
             line = line.split('#', 1)[0].split('//', 1)[0].strip()
             if line:
-                parts = line.split('|', 1)
+                parts = line.split(FILTER_LINE_SEPARATOR, 1)
                 filters.append((parts[0].strip(), parts[1].strip() if len(parts) > 1 else None))
 
     
